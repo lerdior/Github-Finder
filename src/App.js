@@ -26,8 +26,12 @@ class App extends Component {
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}
         &client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
-
-    this.setState({ users: res.data.items, loading: false });
+    if(res.data.items.length === 0){
+      this.setState({loading: false});
+      this.setAlert('No users have been found.', 'light');
+    }else{
+      this.setState({ users: res.data.items, loading: false });
+    }
   };
 
   //Get a single user information
